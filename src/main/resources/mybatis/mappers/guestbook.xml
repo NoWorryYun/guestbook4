@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="guestbook">
+
+	<resultMap id="resultMapGuestbookVo" type="GuestbookVo">
+		<result column="no" property="no" />
+		<result column="name" property="name" />
+		<result column="password" property="password" />
+		<result column="content" property="content" />
+		<result column="reg_date" property="regDate" />
+	</resultMap>
+
+	<!-- 쿼리문작성 -->
+
+	<select id="selectList" resultMap="resultMapGuestbookVo">
+		<![CDATA[
+			select  no,
+					name,
+					password,
+					content,
+					reg_date
+			from guestbook
+		]]>
+	</select>
+
+	<insert id="addGuest" parameterType="GuestbookVo">
+		<![CDATA[
+			insert into guestbook
+			values (seq_guestbook_no.nextval, #{name}, #{password}, #{content}, sysdate)
+		]]>
+	</insert>
+
+	<delete id="guestDelete" parameterType="int">
+		<![CDATA[
+			delete from guestbook
+			where no = #{no}
+		]]>
+	</delete>
+
+	<select id="guestPassword" parameterType="int" resultType="String">
+		<![CDATA[
+			select password
+			from guestbook
+			where no = #{no}
+		]]>
+	</select>
+</mapper>
